@@ -159,12 +159,12 @@ class AnalyzeContext {
      * 并处理当前字符
      */
     boolean moveCursor(){
-    	if(this.cursor < this.available - 1){
+    	if (this.cursor < this.available - 1) {
     		this.cursor++;
         	this.segmentBuff[this.cursor] = CharacterUtil.regularize(this.segmentBuff[this.cursor]);
         	this.charTypes[this.cursor] = CharacterUtil.identifyCharType(this.segmentBuff[this.cursor]);
     		return true;
-    	}else{
+    	} else {
     		return false;
     	}
     }
@@ -259,7 +259,7 @@ class AnalyzeContext {
 	/**
 	 * 处理未知类型的CJK字符
 	 */
-	void outputToResult(){
+	void outputToResult() {
 		int index = 0;
 		for( ; index <= this.cursor ;){
 			//跳过标点符号等字符
@@ -338,7 +338,7 @@ class AnalyzeContext {
 	void reset(){		
 		this.buffLocker.clear();
         this.orgLexemes = new QuickSortSet();
-        this.available =0;
+        this.available = 0;
         this.buffOffset = 0;
     	this.charTypes = new int[BUFF_SIZE];
     	this.cursor = 0;

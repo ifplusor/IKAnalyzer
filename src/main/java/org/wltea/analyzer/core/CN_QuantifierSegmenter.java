@@ -42,7 +42,7 @@ class CN_QuantifierSegmenter implements ISegmenter{
 	static final String SEGMENTER_NAME = "QUAN_SEGMENTER";
 	
 	//中文数词
-	private static String Chn_Num = "一二两三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千万亿拾佰仟萬億兆卅廿";//Cnum
+	private static String Chn_Num = "一二两三四五六七八九十零壹贰叁肆伍陆柒捌玖拾百千万亿佰仟萬億兆卅廿";//Cnum
 	private static Set<Character> ChnNumberChars = new HashSet<Character>();
 	static{
 		char[] ca = Chn_Num.toCharArray();
@@ -85,10 +85,10 @@ class CN_QuantifierSegmenter implements ISegmenter{
 		this.processCount(context);
 		
 		//判断是否锁定缓冲区
-		if(this.nStart == -1 && this.nEnd == -1	&& countHits.isEmpty()){
+		if (this.nStart == -1 && this.nEnd == -1	&& countHits.isEmpty()) {
 			//对缓冲区解锁
 			context.unlockBuffer(SEGMENTER_NAME);
-		}else{
+		} else {
 			context.lockBuffer(SEGMENTER_NAME);
 		}
 	}
@@ -107,16 +107,16 @@ class CN_QuantifierSegmenter implements ISegmenter{
 	 * 处理数词
 	 */
 	private void processCNumber(AnalyzeContext context){
-		if(nStart == -1 && nEnd == -1){//初始状态
-			if(CharacterUtil.CHAR_CHINESE == context.getCurrentCharType() 
-					&& ChnNumberChars.contains(context.getCurrentChar())){
+		if (nStart == -1 && nEnd == -1) {//初始状态
+			if (CharacterUtil.CHAR_CHINESE == context.getCurrentCharType() 
+					&& ChnNumberChars.contains(context.getCurrentChar())) {
 				//记录数词的起始、结束位置
 				nStart = context.getCursor();
 				nEnd = context.getCursor();
 			}
-		}else{//正在处理状态
-			if(CharacterUtil.CHAR_CHINESE == context.getCurrentCharType() 
-					&& ChnNumberChars.contains(context.getCurrentChar())){
+		} else {//正在处理状态
+			if (CharacterUtil.CHAR_CHINESE == context.getCurrentCharType() 
+					&& ChnNumberChars.contains(context.getCurrentChar())) {
 				//记录数词的结束位置
 				nEnd = context.getCursor();
 			}else{
@@ -146,28 +146,28 @@ class CN_QuantifierSegmenter implements ISegmenter{
 	 */
 	private void processCount(AnalyzeContext context){
 		// 判断是否需要启动量词扫描
-		if(!this.needCountScan(context)){
+		if(!this.needCountScan(context)) {
 			return;
 		}
 		
-		if(CharacterUtil.CHAR_CHINESE == context.getCurrentCharType()){
+		if (CharacterUtil.CHAR_CHINESE == context.getCurrentCharType()) {
 			
 			//优先处理countHits中的hit
-			if(!this.countHits.isEmpty()){
+			if (!this.countHits.isEmpty()) {
 				//处理词段队列
 				Hit[] tmpArray = this.countHits.toArray(new Hit[this.countHits.size()]);
 				for(Hit hit : tmpArray){
 					hit = Dictionary.getSingleton().matchWithHit(context.getSegmentBuff(), context.getCursor() , hit);
-					if(hit.isMatch()){
+					if (hit.isMatch()) {
 						//输出当前的词
 						Lexeme newLexeme = new Lexeme(context.getBufferOffset() , hit.getBegin() , context.getCursor() - hit.getBegin() + 1 , Lexeme.TYPE_COUNT);
 						context.addLexeme(newLexeme);
 						
-						if(!hit.isPrefix()){//不是词前缀，hit不需要继续匹配，移除
+						if (!hit.isPrefix()) {//不是词前缀，hit不需要继续匹配，移除
 							this.countHits.remove(hit);
 						}
 						
-					}else if(hit.isUnmatch()){
+					} else if (hit.isUnmatch()){
 						//hit不是词，移除
 						this.countHits.remove(hit);
 					}					
@@ -177,22 +177,20 @@ class CN_QuantifierSegmenter implements ISegmenter{
 			//*********************************
 			//对当前指针位置的字符进行单字匹配
 			Hit singleCharHit = Dictionary.getSingleton().matchInQuantifierDict(context.getSegmentBuff(), context.getCursor(), 1);
-			if(singleCharHit.isMatch()){//首字成量词词
+			if (singleCharHit.isMatch()) {//首字成量词词
 				//输出当前的词
 				Lexeme newLexeme = new Lexeme(context.getBufferOffset() , context.getCursor() , 1 , Lexeme.TYPE_COUNT);
 				context.addLexeme(newLexeme);
 
 				//同时也是词前缀
-				if(singleCharHit.isPrefix()){
+				if (singleCharHit.isPrefix()) {
 					//前缀匹配则放入hit列表
 					this.countHits.add(singleCharHit);
 				}
-			}else if(singleCharHit.isPrefix()){//首字为量词前缀
+			} else if (singleCharHit.isPrefix()){//首字为量词前缀
 				//前缀匹配则放入hit列表
 				this.countHits.add(singleCharHit);
 			}
-			
-			
 		}else{
 			//输入的不是中文字符
 			//清空未成形的量词
@@ -200,7 +198,7 @@ class CN_QuantifierSegmenter implements ISegmenter{
 		}
 		
 		//缓冲区数据已经读完，还有尚未输出的量词
-		if(context.isBufferConsumed()){
+		if (context.isBufferConsumed()) {
 			//清空未成形的量词
 			this.countHits.clear();
 		}
@@ -214,11 +212,11 @@ class CN_QuantifierSegmenter implements ISegmenter{
 		if((nStart != -1 && nEnd != -1 ) || !countHits.isEmpty()){
 			//正在处理中文数词,或者正在处理量词
 			return true;
-		}else{
+		} else {
 			//找到一个相邻的数词
-			if(!context.getOrgLexemes().isEmpty()){
+			if (!context.getOrgLexemes().isEmpty()) {
 				Lexeme l = context.getOrgLexemes().peekLast();
-				if(Lexeme.TYPE_CNUM == l.getLexemeType() ||  Lexeme.TYPE_ARABIC == l.getLexemeType()){
+				if (Lexeme.TYPE_CNUM == l.getLexemeType() || Lexeme.TYPE_ARABIC == l.getLexemeType()) {
 					if(l.getBegin() + l.getLength() == context.getCursor()){
 						return true;
 					}

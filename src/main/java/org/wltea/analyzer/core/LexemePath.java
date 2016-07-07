@@ -37,7 +37,7 @@ class LexemePath extends QuickSortSet implements Comparable<LexemePath>{
 	//词元链的有效字符长度
 	private int payloadLength;
 	
-	LexemePath(){
+	LexemePath() {
 		this.pathBegin = -1;
 		this.pathEnd = -1;
 		this.payloadLength = 0;
@@ -49,23 +49,24 @@ class LexemePath extends QuickSortSet implements Comparable<LexemePath>{
 	 * @return 
 	 */
 	boolean addCrossLexeme(Lexeme lexeme){
-		if(this.isEmpty()){
+		if (this.isEmpty()) {
 			this.addLexeme(lexeme);
 			this.pathBegin = lexeme.getBegin();
 			this.pathEnd = lexeme.getBegin() + lexeme.getLength();
 			this.payloadLength += lexeme.getLength();
 			return true;
 			
-		}else if(this.checkCross(lexeme)){
+		} else if (this.checkCross(lexeme)) {
 			this.addLexeme(lexeme);
-			if(lexeme.getBegin() + lexeme.getLength() > this.pathEnd){
+			// pathBegin 不更新？
+			if (lexeme.getBegin() + lexeme.getLength() > this.pathEnd) {
 				this.pathEnd = lexeme.getBegin() + lexeme.getLength();
 			}
 			this.payloadLength = this.pathEnd - this.pathBegin;
 			return true;
 			
-		}else{
-			return  false;
+		} else {
+			return false;
 			
 		}
 	}
@@ -76,17 +77,17 @@ class LexemePath extends QuickSortSet implements Comparable<LexemePath>{
 	 * @return 
 	 */
 	boolean addNotCrossLexeme(Lexeme lexeme){
-		if(this.isEmpty()){
+		if (this.isEmpty()) {
 			this.addLexeme(lexeme);
 			this.pathBegin = lexeme.getBegin();
 			this.pathEnd = lexeme.getBegin() + lexeme.getLength();
 			this.payloadLength += lexeme.getLength();
 			return true;
 			
-		}else if(this.checkCross(lexeme)){
+		} else if (this.checkCross(lexeme)) {
 			return  false;
 			
-		}else{
+		} else {
 			this.addLexeme(lexeme);
 			this.payloadLength += lexeme.getLength();
 			Lexeme head = this.peekFirst();
@@ -104,11 +105,11 @@ class LexemePath extends QuickSortSet implements Comparable<LexemePath>{
 	 */
 	Lexeme removeTail(){
 		Lexeme tail = this.pollLast();
-		if(this.isEmpty()){
+		if (this.isEmpty()) {
 			this.pathBegin = -1;
 			this.pathEnd = -1;
 			this.payloadLength = 0;			
-		}else{		
+		} else {		
 			this.payloadLength -= tail.getLength();
 			Lexeme newTail = this.peekLast();
 			this.pathEnd = newTail.getBegin() + newTail.getLength();
@@ -123,7 +124,7 @@ class LexemePath extends QuickSortSet implements Comparable<LexemePath>{
 	 */
 	boolean checkCross(Lexeme lexeme){
 		return (lexeme.getBegin() >= this.pathBegin && lexeme.getBegin() < this.pathEnd)
-				|| (this.pathBegin >= lexeme.getBegin() && this.pathBegin < lexeme.getBegin()+ lexeme.getLength());
+				|| (this.pathBegin >= lexeme.getBegin() && this.pathBegin < lexeme.getBegin() + lexeme.getLength());
 	}
 	
 	int getPathBegin() {

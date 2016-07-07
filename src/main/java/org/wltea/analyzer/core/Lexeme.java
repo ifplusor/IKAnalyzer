@@ -146,19 +146,19 @@ public class Lexeme implements Comparable<Lexeme>{
 	 */
 	public int compareTo(Lexeme other) {
 		//起始位置优先
-        if(this.begin < other.getBegin()){
+        if (this.begin < other.getBegin()) {
             return -1;
-        }else if(this.begin == other.getBegin()){
+        } else if (this.begin == other.getBegin()){
         	//词元长度优先
-        	if(this.length > other.getLength()){
+        	if (this.length > other.getLength()) {
         		return -1;
-        	}else if(this.length == other.getLength()){
+        	} else if(this.length == other.getLength()) {
         		return 0;
-        	}else {//this.length < other.getLength()
+        	} else {//this.length < other.getLength()
         		return 1;
         	}
         	
-        }else{//this.begin > other.getBegin()
+        } else {//this.begin > other.getBegin()
         	return 1;
         }
 	}

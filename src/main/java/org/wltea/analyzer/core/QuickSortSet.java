@@ -45,40 +45,41 @@ class QuickSortSet {
 	 */
 	boolean addLexeme(Lexeme lexeme){
 		Cell newCell = new Cell(lexeme); 
-		if(this.size == 0){
+		if (this.size == 0) {
 			this.head = newCell;
 			this.tail = newCell;
 			this.size++;
 			return true;
 			
-		}else{
-			if(this.tail.compareTo(newCell) == 0){//词元与尾部词元相同，不放入集合
+		} else {
+			if (this.tail.compareTo(newCell) == 0) {//词元与尾部词元相同，不放入集合
 				return false;
 				
-			}else if(this.tail.compareTo(newCell) < 0){//词元接入链表尾部
+			} else if (this.tail.compareTo(newCell) < 0) {//词元接入链表尾部
 				this.tail.next = newCell;
 				newCell.prev = this.tail;
 				this.tail = newCell;
 				this.size++;
 				return true;
 				
-			}else if(this.head.compareTo(newCell) > 0){//词元接入链表头部
+			} else if(this.head.compareTo(newCell) > 0) {//词元接入链表头部
 				this.head.prev = newCell;
 				newCell.next = this.head;
 				this.head = newCell;
 				this.size++;
 				return true;
 				
-			}else{					
+			} else {					
 				//从尾部上逆
 				Cell index = this.tail;
 				while(index != null && index.compareTo(newCell) > 0){
 					index = index.prev;
 				}
-				if(index.compareTo(newCell) == 0){//词元与集合中的词元重复，不放入集合
+				// 因为头尾均比较过，所以能保证循环结束时 index 不为 null
+				if (index.compareTo(newCell) == 0) {//词元与集合中的词元重复，不放入集合
 					return false;
 					
-				}else if(index.compareTo(newCell) < 0){//词元插入链表中的某个位置
+				} else if (index.compareTo(newCell) < 0){//词元插入链表中的某个位置
 					newCell.prev = index;
 					newCell.next = index.next;
 					index.next.prev = newCell;

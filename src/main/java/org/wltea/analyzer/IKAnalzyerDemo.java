@@ -1,8 +1,13 @@
 package org.wltea.analyzer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
 
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
@@ -10,16 +15,50 @@ import org.wltea.analyzer.core.Lexeme;
 public class IKAnalzyerDemo {
 	
 	public static void main(String[] args) {
-		Reader in = new StringReader("IK Analyzer是一个结合词典分词和文法分词的中文分词开源工具包。它使用了全新的正向迭代最细粒度切分算法。");
-		IKSegmenter _IKImplement = new IKSegmenter(in , true);
+		File file = new File("D:\\wd\\2.txt");
+		File outFile = new File("D:\\wd\\out.txt");
+
+		InputStream is = null;
+		Reader in = null;
+		FileWriter fw = null;
 		try {
+			is = new FileInputStream(file);
+			in = new InputStreamReader(is, "GB2312");
+			fw = new FileWriter(outFile);
+
+			IKSegmenter _IKImplement = new IKSegmenter(in , true);
+			
 			Lexeme nextLexeme = null;
 			while ((nextLexeme = _IKImplement.next()) != null) {
-				System.out.println(nextLexeme.getBeginPosition() + " - "
-						+ nextLexeme.getEndPosition() + " : " + nextLexeme.getLexemeText());
+				fw.write(nextLexeme.toString() + "\n");
 			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (in != null)
+					in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				if (is != null)
+					is.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			try {
+				if (fw != null)
+					fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
+		System.out.println("Finished !");
 	}
 }

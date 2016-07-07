@@ -46,14 +46,14 @@ class IKArbitrator {
 		Lexeme orgLexeme = orgLexemes.pollFirst();
 		
 		LexemePath crossPath = new LexemePath();
-		while(orgLexeme != null){
-			if(!crossPath.addCrossLexeme(orgLexeme)){
+		while (orgLexeme != null) {
+			if (!crossPath.addCrossLexeme(orgLexeme)) {
 				//找到与crossPath不相交的下一个crossPath	
-				if(crossPath.size() == 1 || !useSmart){
+				if (crossPath.size() == 1 || !useSmart) {
 					//crossPath没有歧义 或者 不做歧义处理
 					//直接输出当前crossPath
 					context.addLexemePath(crossPath);
-				}else{
+				} else {
 					//对当前的crossPath进行歧义处理
 					QuickSortSet.Cell headCell = crossPath.getHead();
 					LexemePath judgeResult = this.judge(headCell, crossPath.getPathLength());

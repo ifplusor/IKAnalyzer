@@ -103,12 +103,12 @@ class DictSegment implements Comparable<DictSegment>{
 	 */
 	Hit match(char[] charArray , int begin , int length , Hit searchHit){
 		
-		if(searchHit == null){
+		if (searchHit == null) {
 			//如果hit为空，新建
 			searchHit= new Hit();
 			//设置hit的其实文本位置
 			searchHit.setBegin(begin);
-		}else{
+		} else {
 			//否则要将HIT状态重置
 			searchHit.setUnmatch();
 		}
@@ -123,7 +123,7 @@ class DictSegment implements Comparable<DictSegment>{
 		Map<Character , DictSegment> segmentMap = this.childrenMap;		
 		
 		//STEP1 在节点中查找keyChar对应的DictSegment
-		if(segmentArray != null){
+		if (segmentArray != null){
 			//在数组中查找
 			DictSegment keySegment = new DictSegment(keyChar);
 			int position = Arrays.binarySearch(segmentArray, 0 , this.storeSize , keySegment);
@@ -131,17 +131,17 @@ class DictSegment implements Comparable<DictSegment>{
 				ds = segmentArray[position];
 			}
 
-		}else if(segmentMap != null){
+		} else if(segmentMap != null) {
 			//在map中查找
 			ds = (DictSegment)segmentMap.get(keyChar);
 		}
 		
 		//STEP2 找到DictSegment，判断词的匹配状态，是否继续递归，还是返回结果
-		if(ds != null){			
-			if(length > 1){
+		if (ds != null) {			
+			if (length > 1){
 				//词未匹配完，继续往下搜索
 				return ds.match(charArray, begin + 1 , length - 1 , searchHit);
-			}else if (length == 1){
+			} else if (length == 1){
 				
 				//搜索最后一个char
 				if(ds.nodeState == 1){
@@ -158,6 +158,7 @@ class DictSegment implements Comparable<DictSegment>{
 			}
 			
 		}
+		
 		//STEP3 没有找到DictSegment， 将HIT设置为不匹配
 		return searchHit;		
 	}

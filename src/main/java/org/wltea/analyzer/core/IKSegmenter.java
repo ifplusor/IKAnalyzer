@@ -115,34 +115,34 @@ public final class IKSegmenter {
 	public synchronized Lexeme next()throws IOException{
 		Lexeme l = null;
 		
-		while((l = context.getNextLexeme()) == null){
+		while ((l = context.getNextLexeme()) == null) {
 			/*
 			 * 从reader中读取数据，填充buffer
 			 * 如果reader是分次读入buffer的，那么buffer要进行移位处理
 			 * 移位处理上次读入的但未处理的数据
 			 */
 			int available = context.fillBuffer(this.input);
-			if(available <= 0){
+			if (available <= 0) {
 				//reader已经读完
 				context.reset();
 				return null;
 				
-			}else{
+			} else {
 				//初始化指针
 				context.initCursor();
-				do{
+				do {
         			//遍历子分词器
-        			for(ISegmenter segmenter : segmenters){
+        			for (ISegmenter segmenter : segmenters) {
         				segmenter.analyze(context);
         			}
         			//字符缓冲区接近读完，需要读入新的字符
-        			if(context.needRefillBuffer()){
+        			if (context.needRefillBuffer()) {
         				break;
         			}
    				//向前移动指针
-				}while(context.moveCursor());
+				} while (context.moveCursor());
 				//重置子分词器，为下轮循环进行初始化
-				for(ISegmenter segmenter : segmenters){
+				for (ISegmenter segmenter : segmenters) {
 					segmenter.reset();
 				}
 			}
@@ -155,7 +155,8 @@ public final class IKSegmenter {
 		}
 		
 		return l;
-	}	
+	}
+	
 	/**
 	 * 重置分词器到初始状态
 	 *
