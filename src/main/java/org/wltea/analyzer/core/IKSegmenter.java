@@ -37,7 +37,7 @@ import org.wltea.analyzer.dic.Dictionary;
  */
 public final class IKSegmenter {
 	
-	//字符窜reader
+	//字符串reader
 	private Reader input;
 	//分词器配置项
 	private Configuration cfg;
