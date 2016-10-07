@@ -6,16 +6,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wltea.analyzer</groupId>
     <artifactId>IKAnalyzer</artifactId>
-    <version>2012_u6</version>
+    <version>2016_FS</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.6</java.version>
         <junit.version>4.11</junit.version>
+        <lucene.version>6.2.1</lucene.version>
     </properties>
 
     <name>IK Analyzer</name>
-    <description>IK 分词器的一个剪裁</description>
+    <description>IK 分词器的一个修改</description>
     <url>https://git.oschina.net/ifplusor/IKAnalyzer</url>
 
     <licenses>
@@ -35,6 +36,14 @@
             <id>linliangyi2007</id>
             <url>http://linliangyi2007.iteye.com/blog/1703916</url>
         </developer>
+        <developer>
+            <id>wener</id>
+            <url>http://wener.me</url>
+        </developer>
+        <developer>
+            <id>ifplusor</id>
+            <url>http://git.oschina.net/ifplusor</url>
+        </developer>
     </developers>
 
     <dependencies>
@@ -43,6 +52,20 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>${lucene.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

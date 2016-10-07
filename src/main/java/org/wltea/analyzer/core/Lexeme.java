@@ -274,6 +274,45 @@ public class Lexeme implements Comparable<Lexeme>{
 	}
 
 	/**
+	 * 获取词元类型标示字符串
+	 * @return String
+	 */
+	public String getLexemeTypeString(){
+		switch(lexemeType) {
+
+			case TYPE_ENGLISH :
+				return "ENGLISH";
+
+			case TYPE_ARABIC :
+				return "ARABIC";
+
+			case TYPE_LETTER :
+				return "LETTER";
+
+			case TYPE_CNWORD :
+				return "CN_WORD";
+
+			case TYPE_CNCHAR :
+				return "CN_CHAR";
+
+			case TYPE_OTHER_CJK :
+				return "OTHER_CJK";
+
+			case TYPE_COUNT :
+				return "COUNT";
+
+			case TYPE_CNUM :
+				return "TYPE_CNUM";
+
+			case TYPE_CQUAN:
+				return "TYPE_CQUAN";
+
+			default :
+				return "UNKONW";
+		}
+	}
+
+	/**
 	 * <p>Setter for the field <code>lexemeType</code>.</p>
 	 *
 	 * @param lexemeType a int.
@@ -306,7 +345,7 @@ public class Lexeme implements Comparable<Lexeme>{
 	 */
 	public String toString(){
 		StringBuffer strbuf = new StringBuffer();
-		strbuf.append(this.getBeginPosition()).append("-").append(this.getEndPosition());
+		strbuf.append(this.getBeginPosition()).append(" - ").append(this.getEndPosition());
 		strbuf.append(" : ").append(this.lexemeText).append(" : \t");
 		switch(lexemeType) {
 			case TYPE_UNKNOWN : 
