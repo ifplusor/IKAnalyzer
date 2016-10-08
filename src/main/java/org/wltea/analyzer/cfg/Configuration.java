@@ -63,14 +63,14 @@ public interface Configuration {
 	 *
 	 * @return String 量词词典路径
 	 */
-	public String getQuantifierDicionary();
+	public String getQuantifierDictionary();
 
 	/**
 	 * 获取扩展字典配置路径
 	 *
 	 * @return List&lt;String&gt; 相对类加载器的路径
 	 */
-	public List<String> getExtDictionarys();
+	public List<String> getExtDictionaries();
 
 
 	/**
@@ -78,6 +78,6 @@ public interface Configuration {
 	 *
 	 * @return List&lt;String&gt; 相对类加载器的路径
 	 */
-	public List<String> getExtStopWordDictionarys();
-			
+	public List<String> getExtStopWordDictionaries();
+
 }

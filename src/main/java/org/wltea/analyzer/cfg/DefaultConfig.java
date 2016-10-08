@@ -1,7 +1,7 @@
 /**
  * IK 中文分词  版本 5.0
  * IK Analyzer release 5.0
- * 
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -20,8 +20,8 @@
  * 源代码由林良益(linliangyi2005@gmail.com)提供
  * 版权声明 2012，乌龙茶工作室
  * provided by Linliangyi and copyright 2012 by Oolong studio
- * 
- * 
+ *
+ *
  */
 package org.wltea.analyzer.cfg;
 
@@ -51,6 +51,8 @@ public class DefaultConfig implements Configuration{
 	private static final String EXT_DICT = "ext_dict";
 	//配置属性——扩展停止词典
 	private static final String EXT_STOP = "ext_stopwords";
+
+	private static final String USE_SMART = "use_smart";
 	
 	private Properties props;
 	/*
@@ -77,6 +79,7 @@ public class DefaultConfig implements Configuration{
 		if(input != null){
 			try {
 				props.loadFromXML(input);
+				useSmart = Boolean.valueOf(props.getProperty(USE_SMART)); // 只读取 USE_SMART 一次
 			} catch (InvalidPropertiesFormatException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -120,7 +123,7 @@ public class DefaultConfig implements Configuration{
 	 *
 	 * @return String 量词词典路径
 	 */
-	public String getQuantifierDicionary(){
+	public String getQuantifierDictionary(){
 		return PATH_DIC_QUANTIFIER;
 	}
 
@@ -129,45 +132,32 @@ public class DefaultConfig implements Configuration{
 	 *
 	 * @return List&lt;String&gt; 相对类加载器的路径
 	 */
-	public List<String> getExtDictionarys(){
-		List<String> extDictFiles = new ArrayList<String>(2);
+	public List<String> getExtDictionaries(){
 		String extDictCfg = props.getProperty(EXT_DICT);
-		if(extDictCfg != null){
-			//使用;分割多个扩展字典配置
-			String[] filePaths = extDictCfg.split(";");
-			if(filePaths != null){
-				for(String filePath : filePaths){
-					if(filePath != null && !"".equals(filePath.trim())){
-						extDictFiles.add(filePath.trim());
-					}
-				}
-			}
-		}		
-		return extDictFiles;		
+		return getCfgDictionaries(extDictCfg);
 	}
-
 
 	/**
 	 * 获取扩展停止词典配置路径
 	 *
 	 * @return List&lt;String&gt; 相对类加载器的路径
 	 */
-	public List<String> getExtStopWordDictionarys(){
-		List<String> extStopWordDictFiles = new ArrayList<String>(2);
+	public List<String> getExtStopWordDictionaries(){
 		String extStopWordDictCfg = props.getProperty(EXT_STOP);
-		if(extStopWordDictCfg != null){
-			//使用;分割多个扩展字典配置
-			String[] filePaths = extStopWordDictCfg.split(";");
-			if(filePaths != null){
-				for(String filePath : filePaths){
-					if(filePath != null && !"".equals(filePath.trim())){
-						extStopWordDictFiles.add(filePath.trim());
-					}
-				}
-			}
-		}		
-		return extStopWordDictFiles;		
+		return getCfgDictionaries(extStopWordDictCfg);
 	}
 			
-
+	private List<String> getCfgDictionaries(String cfg) {
+		List<String> dictFiles = new ArrayList<String>(2);
+		if (cfg != null) {
+			// ; split
+			String[] filePaths = cfg.split(";");
+			for (String filePath : filePaths) { // filesPaths not null
+                if (filePath != null && !"".equals(filePath.trim())) {
+                    dictFiles.add(filePath.trim());
+                }
+            }
+		}
+		return dictFiles;
+	}
 }

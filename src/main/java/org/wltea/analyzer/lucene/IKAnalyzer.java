@@ -24,10 +24,7 @@
  */
 package org.wltea.analyzer.lucene;
 
-import java.io.Reader;
-
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Tokenizer;
 
 /**
  * IK分词器，Lucene Analyzer接口实现
@@ -35,29 +32,29 @@ import org.apache.lucene.analysis.Tokenizer;
  */
 public final class IKAnalyzer extends Analyzer {
 	
-	private boolean useSmart;
+	private Boolean useSmart;
 	
-	public boolean useSmart() {
+	public Boolean useSmart() {
 		return useSmart;
 	}
 
-	public void setUseSmart(boolean useSmart) {
+	public void setUseSmart(Boolean useSmart) {
 		this.useSmart = useSmart;
 	}
 
 	/**
 	 * IK分词器Lucene  Analyzer接口实现类
 	 * 
-	 * 默认细粒度切分算法
+	 * 默认使用 xml 中配置的切分算法
 	 */
 	public IKAnalyzer(){
-		this(false);
+        super();
 	}
 
 	/**
 	 * IK分词器Lucene Analyzer接口实现类
 	 * 
-	 * @param useSmart 当为true时，分词器进行智能切分
+	 * @param useSmart 当为 true 时，分词器进行智能切分；反之进行最细粒度切分
 	 */
 	public IKAnalyzer(boolean useSmart){
 		super();
@@ -69,7 +66,10 @@ public final class IKAnalyzer extends Analyzer {
 	 */
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName) {
-		Tokenizer _IKTokenizer = new IKTokenizer(this.useSmart());
-		return new TokenStreamComponents(_IKTokenizer);
+        if (this.useSmart == null) {
+			return new TokenStreamComponents(new IKTokenizer());
+		} else {
+			return new TokenStreamComponents(new IKTokenizer(this.useSmart));
+		}
 	}
 }

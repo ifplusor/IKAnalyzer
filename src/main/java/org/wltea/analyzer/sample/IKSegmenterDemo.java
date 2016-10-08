@@ -11,7 +11,7 @@ public class IKSegmenterDemo {
 
 		Reader in = null;
 		try {
-            in = new StringReader("这是一个中文分词的例子，你可以直接运行它！IKAnalyer can analysis english text too");
+            in = new StringReader("这是一个中文分词的例子，你可以直接运行它！IKAnalyer can analysis english text too, haha");
 
 			IKSegmenter _IKImplement = new IKSegmenter(in , true);
 			

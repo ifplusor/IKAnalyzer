@@ -48,37 +48,32 @@ public final class IKTokenizer extends Tokenizer {
 	private IKSegmenter _IKImplement;
 	
 	//词元文本属性
-	private final CharTermAttribute termAtt;
+	private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 	//词元位移属性
-	private final OffsetAttribute offsetAtt;
+	private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
 	//词元分类属性（该属性分类参考org.wltea.analyzer.core.Lexeme中的分类常量）
-	private final TypeAttribute typeAtt;
+	private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
 	//记录最后一个词元的结束位置
 	private int endPosition;
-
-    public IKTokenizer() {
-		this(false);
-	}
-
-	public IKTokenizer(AttributeFactory factory) {
-		this(factory, false);
-	}
 
 	/**
 	 * Lucene Tokenizer适配器类构造函数
 	 */
+    public IKTokenizer() {
+		_IKImplement = new IKSegmenter(input);
+	}
+
+	public IKTokenizer(AttributeFactory factory) {
+		super(factory);
+        _IKImplement = new IKSegmenter(input);
+	}
+
 	public IKTokenizer(boolean useSmart){
-	    offsetAtt = addAttribute(OffsetAttribute.class);
-	    termAtt = addAttribute(CharTermAttribute.class);
-	    typeAtt = addAttribute(TypeAttribute.class);
 		_IKImplement = new IKSegmenter(input , useSmart);
 	}
 
 	public IKTokenizer(AttributeFactory factory, boolean useSmart) {
 		super(factory);
-		offsetAtt = addAttribute(OffsetAttribute.class);
-		termAtt = addAttribute(CharTermAttribute.class);
-		typeAtt = addAttribute(TypeAttribute.class);
 		_IKImplement = new IKSegmenter(input , useSmart);
 	}
 

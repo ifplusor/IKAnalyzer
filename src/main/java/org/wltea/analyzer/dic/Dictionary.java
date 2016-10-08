@@ -226,10 +226,7 @@ public class Dictionary {
 			
 		}finally{
 			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
+				is.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -243,7 +240,7 @@ public class Dictionary {
 	 */
 	private void loadExtDict(){
 		//加载扩展词典配置
-		List<String> extDictFiles  = cfg.getExtDictionarys();
+		List<String> extDictFiles  = cfg.getExtDictionaries();
 		if(extDictFiles != null){
 			InputStream is = null;
 			for(String extDictName : extDictFiles){
@@ -272,10 +269,7 @@ public class Dictionary {
 					
 				}finally{
 					try {
-						if(is != null){
-		                    is.close();
-		                    is = null;
-						}
+		                is.close();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -291,7 +285,7 @@ public class Dictionary {
 		//建立一个主词典实例
 		_StopWordDict = new DictSegment((char)0);
 		//加载扩展停止词典
-		List<String> extStopWordDictFiles  = cfg.getExtStopWordDictionarys();
+		List<String> extStopWordDictFiles  = cfg.getExtStopWordDictionaries();
 		if(extStopWordDictFiles != null){
 			InputStream is = null;
 			for(String extStopWordDictName : extStopWordDictFiles){
@@ -320,10 +314,7 @@ public class Dictionary {
 					
 				}finally{
 					try {
-						if(is != null){
-		                    is.close();
-		                    is = null;
-						}
+		                is.close();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -339,7 +330,7 @@ public class Dictionary {
 		//建立一个量词典实例
 		_QuantifierDict = new DictSegment((char)0);
 		//读取量词词典文件
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream(cfg.getQuantifierDicionary());
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream(cfg.getQuantifierDictionary());
         if(is == null){
         	throw new RuntimeException("Quantifier Dictionary not found!!!");
         }
@@ -359,10 +350,7 @@ public class Dictionary {
 			
 		}finally{
 			try {
-				if(is != null){
-                    is.close();
-                    is = null;
-				}
+				is.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

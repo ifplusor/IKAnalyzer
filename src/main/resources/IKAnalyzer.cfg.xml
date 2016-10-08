@@ -2,10 +2,14 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">  
 <properties>  
 	<comment>IK Analyzer 扩展配置</comment>
-	<!--用户可以在这里配置自己的扩展字典 -->
+
+	<!-- 配置是否启用智能切分 -->
+	<entry key="use_smart">true</entry>
+
+	<!-- 用户可以在这里配置自己的扩展字典 -->
 	<entry key="ext_dict">ext.dic;</entry> 
 	
-	<!--用户可以在这里配置自己的扩展停止词字典-->
+	<!-- 用户可以在这里配置自己的扩展停止词字典-->
 	<entry key="ext_stopwords">stopword.dic;</entry> 
 	
 </properties>

@@ -47,7 +47,10 @@ public final class IKSegmenter {
 	private List<ISegmenter> segmenters;
 	//分词歧义裁决器
 	private IKArbitrator arbitrator;
-	
+
+	public IKSegmenter(Reader input) {
+		this(input, DefaultConfig.getInstance());
+	}
 
 	/**
 	 * IK分词器构造函数
@@ -58,10 +61,10 @@ public final class IKSegmenter {
 	 * 非智能分词：细粒度输出所有可能的切分结果
 	 * 智能分词： 合并数词和量词，对分词结果进行歧义判断
 	 */
-	public IKSegmenter(Reader input , boolean useSmart){
+	public IKSegmenter(Reader input, boolean useSmart){
 		this.input = input;
 		this.cfg = DefaultConfig.getInstance();
-		this.cfg.setUseSmart(useSmart);
+		this.cfg.setUseSmart(useSmart); // 重置 useSmart
 		this.init();
 	}
 	
