@@ -3,6 +3,9 @@
 <properties>  
 	<comment>IK Analyzer 扩展配置</comment>
 
+	<!-- 配置是否启用n-gram切分 -->
+	<entry key="use_ngram">2</entry>
+
 	<!-- 配置是否启用智能切分 -->
 	<entry key="use_smart">true</entry>
 

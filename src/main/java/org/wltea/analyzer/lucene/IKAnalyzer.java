@@ -43,7 +43,7 @@ public final class IKAnalyzer extends Analyzer {
 	}
 
 	/**
-	 * IK分词器Lucene  Analyzer接口实现类
+	 * IK分词器Lucene Analyzer接口实现类
 	 * 
 	 * 默认使用 xml 中配置的切分算法
 	 */

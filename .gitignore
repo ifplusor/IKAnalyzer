@@ -11,8 +11,15 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# JetBrain IDEA
 .idea
 *.iml
-helper/
+
+# Eclipse
+.classpath
+.factorypath
+.project
+.settings
+
+# Maven
 target/
-out/
